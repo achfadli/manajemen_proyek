@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding-top: 50px;
+    }
+
+    .profile-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .profile-header {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        margin-top: -100px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .nav-pills .nav-link.active {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card profile-card animate__animated animate__fadeIn">
+                    <div class="profile-header">
+                        <h2>Profil Pengguna</h2>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="{{ user.profile.profile_image.url|default:'/static/default-avatar.png' }}"
+                             class="profile-avatar" alt="Profile Picture">
+                    </div>
+
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-fill mb-4" id="profileTabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#personalInfo">Informasi Pribadi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#accountSettings">Pengaturan Akun</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="personalInfo">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label>Nama Depan</label>
+                                            {{ profile_form.first_name }}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Nama Belakang</label>
+                                            {{ profile_form.last_name }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Tambahkan field lainnya -->
+                                    <button type="submit" class="btn btn-primary">
+                                        Perbarui Profil
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="accountSettings">
+                                <!-- Pengaturan Akun -->
+                                <div class="list-group">
+                                    <a href="{% url 'change_password' %}" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-lock me-2"></i>Ganti Password
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-shield-alt me-2"></i>Keamanan Akun
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-bell me-2"></i>Pengaturan Notifikasi
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Tambahkan logika JavaScript tambahan jika diperlukan
+</script>
+{% endblock %}

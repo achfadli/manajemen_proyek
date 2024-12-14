@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .verification-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+    }
+
+    .verification-icon {
+        font-size: 80px;
+        color: #4caf50;
+        margin-bottom: 20px;
+    }
+
+    .btn-resend {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="verification-container text-white">
+        <i class="fas fa-envelope-open-text verification-icon"></i>
+        <h2>Verifikasi Email Anda</h2>
+        <p>
+            Kami telah mengirimkan email verifikasi ke {{ user.email }}. 
+            Silakan periksa kotak masuk Anda dan klik tautan verifikasi.
+        </p>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" name="resend" class="btn btn-resend text-white">
+                <i class="fas fa-sync me-2"></i>Kirim Ulang Email Verifikasi
+            </button>
+        </form>
+
+        <div class="mt-3">
+            <small>
+                Tidak menerima email? Periksa folder spam atau 
+                <a href="#" class="text-warning">hubungi dukungan</a>
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}

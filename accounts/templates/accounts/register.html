@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="register-wrapper">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-card-header">
+                <h2>Buat Akun Baru</h2>
+                <p>Daftar untuk memulai perjalanan Anda</p>
+            </div>
+
+            <div class="register-card-body">
+                {% if messages %}
+                    <div class="message-container">
+                        {% for message in messages %}
+                            <div class="alert
+                                {% if message.tags == 'error' %}alert-danger
+                                {% elif message.tags == 'success' %}alert-success
+                                {% elif message.tags == 'info' %}alert-info
+                                {% else %}alert-warning{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'register' %}" class="register-form">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                                {{ form.first_name }}
+                            </div>
+                            {% if form.first_name.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                                {{ form.last_name }}
+                            </div>
+                            {% if form.last_name.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                            {{ form.email }}
+                        </div>
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.email.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user-circle"></i>
+                                </span>
+                            </div>
+                            {{ form.username }}
+                        </div>
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.username.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                                {{ form.password1 }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye-slash"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            {% if form.password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password1.errors }}
+                                </div>
+                            {% endif %}
+                            <div class="password-strength mt-2">
+                                <div class="strength-bar"></div>
+                                <small class="strength-text text-muted">Kekuatan Password</small>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                </div>
+                                {{ form.password2 }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password">
+                                        <i class="fas fa-eye-slash"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            {% if form.password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.password2.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="terms"
+                                required
+                            >
+                            <label class="custom-control-label" for="terms">
+                                Saya setuju dengan
+                                <a href="#" class="text-primary">Syarat & Ketentuan</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-block mt-3"
+                    >
+                        Daftar Sekarang
+                    </button>
+
+                    <div class="text-center mt-3">
+                        Sudah punya akun?
+                        <a
+                            href="{% url 'login' %}"
+                            class="text-primary"
+                        >
+                            Masuk di sini
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #3498db, #2ecc71);
+    padding: 20px;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.register-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.register-card-header {
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.register-card-body {
+    padding: 30px;
+}
+
+.input-group-prepend .input-group-text {
+    background: transparent;
+    border: none;
+    color: #666;
+}
+
+.form-control {
+    border-radius: 25px;
+    padding: 15px;
+}
+
+.password-strength {
+    height: 5px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.strength-bar {
+    width: 0;
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.strength-text {
+    font-size: 12px;
+    text-align: right;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Password visibility toggle
+    const passwordToggles = document.querySelectorAll('.toggle-password');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const passwordInput = this.closest('.input-group').querySelector('input');
+            const icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    });
+
+    // Password strength indicator
+    const password1Input = document.querySelector('input[name="password1"]');
+    const strengthBar = document.querySelector('.strength-bar');
+    const strengthText = document.querySelector('.strength-text');
+
+    password1Input.addEventListener('input', function() {
+        const password = this.value;
+        const strengthScore = calculatePasswordStrength(password);
+
+        // Update strength bar
+        strengthBar.style.width = `${strengthScore}%`;
+
+        // Set color based on strength
+        if (strengthScore <= 25) {
+            strengthBar.style.backgroundColor = 'red';
+            strengthText.textContent = 'Lemah';
+        } else if (strengthScore <= 50) {
+            strengthBar.style.backgroundColor = 'orange';
+            strengthText.textContent = 'Cukup';
+        } else if (strengthScore <= 75) {
+            strengthBar.style.backgroundColor = 'yellow';
+            strengthText.textContent = 'Kuat';
+        } else {
+            strengthBar.style.backgroundColor = 'green';
+            strengthText.textContent = 'Sangat Kuat';
+        }
+    });
+
+    // Password strength calculation function
+    function calculatePasswordStrength(password) {
+        let score = 0;
+
+        // Length
+        if (password.length >= 8) score += 25;
+        if (password.length >= 12) score += 15;
+
+        // Complexity
+        if (/[A-Z]/.test(password)) score += 15;
+        if (/[a-z]/.test(password)) score += 10;
+        if (/[0-9]/.test(password)) score += 15;
+        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) score += 20;
+
+        return Math.min(score, 100);
+    }
+
+    // Form validation
+    const registerForm = document.querySelector('.register-form');
+    registerForm.addEventListener('submit', function(e) {
+        let isValid = true;
+
+        // Custom validations
+        const requiredFields = registerForm.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        // Password match validation
+        const password1 = document.querySelector('input[name="password1"]');
+        const password2 = document.querySelector('input[name="password2"]');
+        if (password1.value !== password2.value) {
+            password2.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            password2.classList.remove('is-invalid');
+        }
+
+        // Terms checkbox validation
+        const termsCheckbox = document.getElementById('terms');
+        if (!termsCheckbox.checked) {
+            termsCheckbox.closest('.custom-control').classList.add('text-danger');
+            isValid = false;
+        } else {
+            termsCheckbox.closest('.custom-control').classList.remove('text-danger');
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    // Auto-dismiss messages
+    const messages = document.querySelectorAll('.alert');
+    messages.forEach(message => {
+        setTimeout(() => {
+            message.classList.add('fade');
+            setTimeout(() => message.remove(), 500);
+        }, 3000);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .two-factor-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .qr-code-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-activate {
+        background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="two-factor-container text-white">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-shield-alt me-2"></i>Autentikasi Dua Faktor
+        </h2>
+
+        <div class="qr-code-container">
+            <img src="{{ qr_code_url }}" alt="QR Code" class="img-fluid">
+        </div>
+
+        <p class="text-center">
+            Scan kode QR di atas menggunakan aplikasi autentikator seperti Google Authenticator.
+        </p>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Kode Verifikasi</label>
+                <input type="text" name="verification_code" class="form-control" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-activate text-white">
+                    <i class="fas fa-check-circle me-2"></i>Aktifkan Autentikasi Dua Faktor
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <small>
+                Simpan kode cadangan di tempat yang aman. 
+                Anda akan membutuhkannya jika kehilangan akses ke aplikasi autentikator.
+            </small>
+        </div>
+    </div>
+</div>
+{% endblock %}
